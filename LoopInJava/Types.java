@@ -40,23 +40,23 @@ public class Types {
         String triangle1 ="", triangle2 ="", triangle3 ="", triangle4 = "";
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= i; j++) {
-                triangle1 += "*";
+                triangle1 += "* ";
             }
             triangle1 += "\n";
 
             for (int j = n - i + 1; j > 0; j--) {
-                triangle2 += "*";
+                triangle2 += "* ";
             }
             triangle2 += "\n";
 
             for (int j = n; j > 0; j--) {
-                if (j > i) triangle3 += " ";
-                else triangle3 += "*";
+                if (j > i) triangle3 += "  ";
+                else triangle3 += " *";
             }
             triangle3 += "\n";
 
             for (int j = n; j > 0; j--) {
-                if (j >= i) triangle4 += "*";
+                if (j >= i) triangle4 += "* ";
             }
             triangle4 += "\n";
         }
