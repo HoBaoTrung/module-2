@@ -14,5 +14,17 @@ public class NumberArray {
         }
         System.out.println(Arrays.toString(array));
         System.out.println("The largest property value in the list is " + max + " ,at position " + index);
+
+        int min = minValue(array);
+        System.out.println("The smallest element in the array is: " + min);
+    }
+    public static int minValue(int[] array) {
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        return min;
     }
 }
