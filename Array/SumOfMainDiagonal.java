@@ -17,8 +17,13 @@ public class SumOfMainDiagonal {
         }
 
         double sum = 0;
-        for (int i = 0; i < rows; i++) {
+        if(rows % 2 != 0){
+            sum += array[rows/2][cols/2];
+        }
+        for (int i = 0; i < rows/2; i++) {
+            System.out.println(array[i][i] + " " + array[rows - 1 - i][rows - 1 - i]);
             sum += array[i][i];
+            sum += array[rows - 1 - i][rows - 1 - i];
         }
 
         for (double[] row : array) {
