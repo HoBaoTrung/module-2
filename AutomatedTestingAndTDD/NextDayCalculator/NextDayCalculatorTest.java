@@ -65,4 +65,14 @@ public class NextDayCalculatorTest {
         String actual = NextDayCalculator.getNextDay(day, month, year);
         assertEquals(expected, actual, "Test Case 6 Failed!");
     }
+
+    @Test
+    void testCase7() {
+        int day = 31, month = 122, year = 2018;
+
+        String expected = String.format("Invalid Date");
+
+        String actual = NextDayCalculator.getNextDay(day, month, year);
+        assertEquals(expected, actual, "Test Case 7 Failed!");
+    }
 }
