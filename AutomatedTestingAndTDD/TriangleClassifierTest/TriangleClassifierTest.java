@@ -1,6 +1,5 @@
 package AutomatedTestingAndTDD.TriangleClassifierTest;
 
-import AutomatedTestingAndTDD.NextDayCalculator.NextDayCalculator;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
