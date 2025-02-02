@@ -16,10 +16,9 @@ public class TestMyList {
         // Kiểm tra clone()
         MyList<String> clonedList = myList.clone();
         System.out.println("Danh sách đã clone:");
-        for (int i = 0; i < clonedList.size(); i++) {
-            System.out.print(clonedList.get(i) + " ");
-        }
+        System.out.println(clonedList);
         System.out.println();
+
         clonedList.add("A");
         System.out.println(clonedList);
         System.out.println(myList);
