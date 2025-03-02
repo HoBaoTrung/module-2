@@ -1,0 +1,12 @@
+- Nhánh xử lý dữ liệu nhị phân (Byte Streams):
+👉 Ứng dụng: Khi làm việc với file nhị phân (hình ảnh, âm thanh, video, file nén, v.v.)
+* InputStream và OutputStream là các lớp cơ bản để xử lý luồng dữ liệu.
+* FileInputStream và FileOutputStream: Đọc/ghi dữ liệu từ file dưới dạng byte như dữ liệu hình ảnh, âm thanh, video, vv.
+* BufferedInputStream và BufferedOutputStream: Dùng bộ đệm để tối ưu hiệu suất đọc/ghi.
+* DataInputStream và DataOutputStream: Đọc/ghi dữ liệu nguyên thủy.
+* ObjectInputStream và ObjectOutputStream: Đọc/ghi đối tượng Java đã tuần tự hóa
+
+- Nhánh xử lý dữ liệu ký tự (Character Streams):
+👉 Ứng dụng: Dùng khi cần ghi dữ liệu dạng văn bản vào tệp tin như .txt, .csv, .json.
+* FileReader (đọc dữ liệu ký tự từ file)
+* FileWriter (ghi dữ liệu ký tự vào file)
