@@ -9,6 +9,7 @@ public class ContactManager implements Manager<Contact> {
     private List<Contact> contacts;
     private static final String FILE_NAME = "Case_Study/data/contacts.csv";
     private static final String WRITE_FILE_NAME = "Case_Study/data/write_contacts.csv";
+
     public ContactManager() {
         this.contacts = new ArrayList<>();
     }
@@ -19,6 +20,20 @@ public class ContactManager implements Manager<Contact> {
 
     public boolean isUniqueEmail(String email) {
         return contacts.stream().noneMatch(contact -> contact.getEmail().equals(email));
+    }
+
+    private boolean confirmAction(String message) {
+        System.out.print(message + " (y/N): ");
+        do {
+            String choice = sc.nextLine();
+            if (choice.equalsIgnoreCase("y")) {
+                return true;
+            } else if (choice.equalsIgnoreCase("n")) {
+                return false;
+            } else {
+                System.out.print("Nhập y hoặc N: ");
+            }
+        } while (true);
     }
 
     // Thêm liên hệ mới
@@ -51,24 +66,25 @@ public class ContactManager implements Manager<Contact> {
     // Xóa liên hệ bằng số điện thoại
     @Override
     public boolean remove() {
-        System.out.println("Nhập số điện thoại: ");
-        String phoneNumber = sc.nextLine();
-        if (phoneNumber.isEmpty()) {
-            return false;
-        }
-        System.out.println(searchByPhoneNumber(phoneNumber));
-        System.out.print("Bạn chắc chắn muốn xóa (y/N): ");
+        String phoneNumber;
+        Contact foundContact;
         do {
-            String choice = sc.nextLine();
-            if (choice.equalsIgnoreCase("y")) {
-                return contacts.removeIf(contact -> contact.getPhoneNumber().equals(phoneNumber));
-            } else if (choice.equalsIgnoreCase("n")) {
+            System.out.println("Nhập số điện thoại: ");
+            phoneNumber = sc.nextLine();
+            if (phoneNumber.isEmpty()) {
                 return false;
-            } else {
-                System.out.print("Nhập y hoặc N: ");
             }
+            foundContact = searchByPhoneNumber(phoneNumber);
+            if (foundContact != null) {
+                break;
+            } else System.out.println("Không tìm thấy số này");
         } while (true);
-
+        System.out.println(foundContact);
+        if (confirmAction("Bạn chắc chắn muốn xóa")) {
+            String finalPhoneNumber = phoneNumber;
+            return contacts.removeIf(contact -> contact.getPhoneNumber().equals(finalPhoneNumber));
+        }
+        return false;
     }
 
     // Tìm kiếm liên hệ bằng số điện thoại
@@ -187,73 +203,57 @@ public class ContactManager implements Manager<Contact> {
 
 
     public void readCSV() {
-        System.out.print("Bạn chắc chắn muốn thực hiện cập nhật lại toàn bộ bộ nhớ danh bạ từ file (y/N): ");
-        do {
-            String choice = sc.nextLine();
-            if (choice.equalsIgnoreCase("y")) {
-                contacts.clear();
-                String COMMA = ",";
-                try {
-                    FileReader fileReader = new FileReader(FILE_NAME);
-                    BufferedReader bufferedReader = new BufferedReader(fileReader);
-                    Scanner scanner = new Scanner(bufferedReader);
-                    String line = scanner.nextLine();
-                    while (scanner.hasNextLine()) {
-                        line = scanner.nextLine();
-                        String[] values = line.split(COMMA);
-                        Contact contact = new Contact();
-                        contact.setPhoneNumber(values[0]);
-                        contact.setGroup(values[1]);
-                        contact.setName(values[2]);
-                        contact.setAddress(values[4]);
-                        contact.setSex(values[3]);
-                        contact.setDateOfBirth(values[5]);
-                        contact.setEmail(values[6]);
-                        add(contact);
-                    }
-                    scanner.close();
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (confirmAction("Bạn chắc chắn muốn thực hiện cập nhật lại toàn bộ bộ nhớ danh bạ từ file")) {
+            contacts.clear();
+            String COMMA = ",";
+            try {
+                FileReader fileReader = new FileReader(FILE_NAME);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                Scanner scanner = new Scanner(bufferedReader);
+                String line = scanner.nextLine();
+                while (scanner.hasNextLine()) {
+                    line = scanner.nextLine();
+                    String[] values = line.split(COMMA);
+                    Contact contact = new Contact();
+                    contact.setPhoneNumber(values[0]);
+                    contact.setGroup(values[1]);
+                    contact.setName(values[2]);
+                    contact.setAddress(values[4]);
+                    contact.setSex(values[3]);
+                    contact.setDateOfBirth(values[5]);
+                    contact.setEmail(values[6]);
+                    add(contact);
                 }
-            } else if (choice.equalsIgnoreCase("n")) {
+                scanner.close();
                 return;
-            } else {
-                System.out.print("Nhập y hoặc N: ");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } while (true);
+        }
 
 
     }
 
     public void writeCSV() {
-        System.out.print("Bạn chắc chắn muốn thực hiện cập nhật lại toàn bộ nội dung file (y/N): ");
-        do {
-            String choice = sc.nextLine();
-            if (choice.equalsIgnoreCase("y")) {
-                String COMMA = ",";
-                try {
-                    FileWriter fileWriter = new FileWriter(WRITE_FILE_NAME, false);
-                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-                    bufferedWriter.write("Số điện thoại,Nhóm,Họ tên,Giới tính,Địa chỉ,Ngày sinh,Email");
+        if (confirmAction("Bạn chắc chắn muốn thực hiện cập nhật lại toàn bộ nội dung file")) {
+            String COMMA = ",";
+            try {
+                FileWriter fileWriter = new FileWriter(WRITE_FILE_NAME, false);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+                bufferedWriter.write("Số điện thoại,Nhóm,Họ tên,Giới tính,Địa chỉ,Ngày sinh,Email");
+                bufferedWriter.newLine();
+                for (Contact contact : contacts) {
+                    bufferedWriter.write(contact.getPhoneNumber() + COMMA + contact.getGroup() + COMMA + contact.getName() + COMMA + contact.getSex()
+                            + COMMA + contact.getAddress() + COMMA + contact.getDateOfBirth() + COMMA + contact.getEmail());
                     bufferedWriter.newLine();
-                    for (Contact contact : contacts) {
-                        bufferedWriter.write(contact.getPhoneNumber() + COMMA + contact.getGroup() + COMMA + contact.getName() + COMMA + contact.getSex()
-                        + COMMA + contact.getAddress() + COMMA + contact.getDateOfBirth() + COMMA + contact.getEmail());
-                        bufferedWriter.newLine();
-                    }
-                    bufferedWriter.close();
-                    System.out.println("Ghi thành công");
-                    return;
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            } else if (choice.equalsIgnoreCase("n")) {
+                bufferedWriter.close();
+                System.out.println("Ghi thành công");
                 return;
-            } else {
-                System.out.print("Nhập y hoặc N: ");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } while (true);
+        }
 
     }
 
