@@ -1,0 +1,6 @@
+Hãy thiết kế hệ thống đơn giản để quản lý đơn hàng (Order) trong một cửa hàng online. Hệ thống cần:
+1. Tạo đơn hàng và tính tổng giá trị đơn hàng.
+2. Hỗ trợ thanh toán bằng nhiều phương thức (ví dụ: credit card, PayPal).
+3. Có thể xuất hóa đơn (PDF, email, v.v.).
+4. Hệ thống dễ mở rộng thêm phương thức thanh toán hoặc xuất hóa đơn mà không sửa mã cũ.
+5. Tuân theo các nguyên tắc SOLID.
